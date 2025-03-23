@@ -6,11 +6,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to MySQL database
 const db = mysql.createConnection({
     host: "localhost",
-    user: "root",  // Your MySQL username
-    password: "Keerthi@1108",  // Your MySQL password
+    user: "root",  
+    password: "Keerthi@1108", 
     database: "todo_db"
 });
 
@@ -19,7 +18,6 @@ db.connect(err => {
     console.log("✅ MySQL Connected!");
 });
 
-// Get all tasks
 app.get("/tasks", (req, res) => {
     db.query("SELECT * FROM tasks", (err, results) => {
         if (err) throw err;
@@ -27,7 +25,6 @@ app.get("/tasks", (req, res) => {
     });
 });
 
-// Add a new task
 app.post("/tasks", (req, res) => {
     const { title } = req.body;
     db.query("INSERT INTO tasks (title) VALUES (?)", [title], (err, result) => {
@@ -36,7 +33,6 @@ app.post("/tasks", (req, res) => {
     });
 });
 
-// Mark task as completed
 app.put("/tasks/:id", (req, res) => {
     const { id } = req.params;
     db.query("UPDATE tasks SET status = 'completed' WHERE id = ?", [id], (err) => {
@@ -45,7 +41,6 @@ app.put("/tasks/:id", (req, res) => {
     });
 });
 
-// Delete a task
 app.delete("/tasks/:id", (req, res) => {
     const { id } = req.params;
     db.query("DELETE FROM tasks WHERE id = ?", [id], (err) => {
@@ -54,7 +49,6 @@ app.delete("/tasks/:id", (req, res) => {
     });
 });
 
-// Start server
 app.listen(3000, () => {
     console.log("🚀 Server running on http://localhost:3000");
 });
